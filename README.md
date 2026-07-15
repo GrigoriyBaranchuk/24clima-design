@@ -12,9 +12,11 @@
 ## Подключение в приложение
 
 ```jsonc
-// package.json — зависимость закреплена ТЕГОМ, не веткой
+// package.json — зависимость закреплена ТЕГОМ, не веткой.
+// Формат git+https (не github:): репозиторий приватный, github:-shorthand
+// качает tarball без git-auth и на приватном репо не работает.
 "dependencies": {
-  "@24clima/design": "github:GrigoriyBaranchuk/24clima-design#v0.1.0"
+  "@24clima/design": "git+https://github.com/GrigoriyBaranchuk/24clima-design.git#v0.1.0"
 }
 ```
 
@@ -67,10 +69,23 @@ git add package.json package-lock.json && git commit -m "chore(design): bump @24
 Вернуть предыдущий тег в package.json приложения, `bun install` / `npm install`,
 закоммитить lockfile, задеплоить.
 
+## Доступ для CI/Vercel (репозиторий приватный)
+
+Локально всё работает через твой git-keychain. Для сборок в облаке нужен токен:
+
+1. GitHub → Settings → Developer settings → **Fine-grained personal access token**:
+   Repository access = только `24clima-design`, Permissions = Contents: **Read-only**.
+2. В Vercel (проект 24Clima) → Settings → Environment Variables:
+   `GH_PAT` = токен (все окружения).
+3. `vercel.json` сайта уже содержит `installCommand` с
+   `git config url."https://$GH_PAT@github.com/".insteadOf "https://github.com/"` —
+   git-зависимость клонируется с токеном.
+4. Для других CI (GitHub Actions, Docker, Render) — тот же приём: секрет + insteadOf
+   перед `npm install` / `bun install`.
+
 ## Правила
 
-- Репозиторий публичный: Vercel ставит git-зависимость без credentials.
-  Секретов и приватных данных здесь быть не должно — только дизайн.
+- Секретов и приватных данных здесь быть не должно — только дизайн.
 - Никаких lifecycle-скриптов (`prepare`, `postinstall`) в package.json —
   git-зависимости при их наличии собираются при каждом install.
 - Никаких runtime-зависимостей — пакет остаётся статическими файлами.
