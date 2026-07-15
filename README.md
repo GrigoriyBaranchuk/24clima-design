@@ -13,10 +13,11 @@
 
 ```jsonc
 // package.json — зависимость закреплена ТЕГОМ, не веткой.
-// Формат git+https (не github:): репозиторий приватный, github:-shorthand
-// качает tarball без git-auth и на приватном репо не работает.
+// Формат СТРОГО git+ssh: репозиторий приватный, а github:-shorthand И git+https
+// bun превращает в запрос tarball через api.github.com БЕЗ auth → 404.
+// git+ssh заставляет bun/npm делать настоящий git clone (локально — ssh-ключ).
 "dependencies": {
-  "@24clima/design": "git+https://github.com/GrigoriyBaranchuk/24clima-design.git#v0.1.0"
+  "@24clima/design": "git+ssh://git@github.com/GrigoriyBaranchuk/24clima-design.git#v0.1.0"
 }
 ```
 
