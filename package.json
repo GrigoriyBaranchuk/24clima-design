@@ -1,0 +1,23 @@
+{
+	"name": "@24clima/design",
+	"version": "0.1.0",
+	"description": "24clima design system: tokens, Tailwind preset, brand book — shared by 24clima.com and shop.24clima.com",
+	"license": "UNLICENSED",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/GrigoriyBaranchuk/24clima-design.git"
+	},
+	"main": "tailwind-preset.js",
+	"exports": {
+		".": "./tailwind-preset.js",
+		"./tailwind-preset": "./tailwind-preset.js",
+		"./tokens.css": "./tokens.css",
+		"./package.json": "./package.json"
+	},
+	"files": [
+		"tailwind-preset.js",
+		"tokens.css",
+		"DESIGN.md",
+		"README.md"
+	]
+}
