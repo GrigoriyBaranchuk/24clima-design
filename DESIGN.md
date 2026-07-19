@@ -94,6 +94,8 @@ Tailwind: `bg-brand-navy`, `text-brand-green`, `bg-whatsapp hover:bg-whatsapp-ho
 
 ### Кнопки
 - **Primary (WhatsApp):** фон `whatsapp`, белый текст, pill, `active:scale-[0.97]`.
+  Готовая реализация — компонент **`WhatsAppCta`** из `@24clima/design/components`
+  (см. §10). Не собирать эту кнопку заново в приложениях.
 - **Primary (общая):** фон `brand-green`, ховер `brand-green-dark`, белый текст, pill.
 - **Secondary (outline):** прозрачный фон, border, текст navy (на светлом) / white (на тёмном).
 - **Ghost:** `bg-white/15` на тёмном, светло-серый на светлом.
@@ -143,7 +145,48 @@ WhatsApp-first CTA, touch targets ≥ 44px, body ≥ 15px.
 
 ---
 
-## 10. Как менять дизайн (workflow)
+## 10. Общие компоненты (v0.2.0)
+
+Начиная с v0.2.0 канон **хедера, футера и WhatsApp-CTA живёт в самом пакете**
+как готовые React-компоненты (`@24clima/design/components`). Оба приложения
+ОБЯЗАНЫ собирать свои Header/Footer из этих примитивов — так сайт и магазин
+больше не могут визуально разойтись. Дублировать разметку хедера/футера/кнопок
+в приложениях запрещено.
+
+**Архитектура.** Компоненты framework-light: только React. Внутри НЕТ `next-intl`,
+`next/link`, `radix`/`shadcn`. Все подписи приходят через props (i18n — забота
+приложения); внутренние ссылки рендерятся через prop `LinkComponent`
+(`React.ComponentType<{href; className?; children; onClick?}>`, по умолчанию `<a>`).
+Интерактивные меню (мобильный drawer, дропдауны, переключатель языка) остаются
+в приложениях — пакет даёт визуальную ОБОЛОЧКУ и примитивы. Сырой `.tsx`
+поставляется как есть, поэтому потребитель добавляет
+`transpilePackages: ["@24clima/design"]` (см. README).
+
+| Компонент | Роль |
+|---|---|
+| `WhatsAppIcon` | Канонический 24×24 SVG-глиф, `size` |
+| `WhatsAppCta` | Primary WhatsApp-кнопка §6 (pill, pulse?, sm/md/lg) |
+| `WhatsAppFab` | Плавающая круглая FAB, pulse, `revealAfterScroll?` |
+| `HeaderShell` | Хром хедера: fixed, высоты, фон, скролл-поведение (слоты) |
+| `HeaderNavLink` | Канонический desktop nav-элемент |
+| `FooterShell` | Navy-футер, 4-колоночный грид, bottom-bar |
+| `FooterColumn` / `FooterLink` | Колонка футера и ссылка-примитив |
+| `SocialLinks` | Ряд круглых соц-кнопок (WhatsApp/Instagram/Facebook) |
+
+**Токены.** Компоненты используют ТОЛЬКО токены пресета (`bg-whatsapp`,
+`hover:bg-whatsapp-hover`, `bg-brand-navy-dark`, `text-brand-green`,
+`hover:text-brand-green-dark` и т.д.) и общие классы `.hero-gradient`/
+`.whatsapp-pulse`. Хардкод-hex нет — исключение только фирменные цвета
+третьих сторон в `SocialLinks` (Instagram-градиент, Facebook `#1877F2`),
+помеченные комментарием.
+
+**Нормализация цвета.** Мобильный хедер сайта раньше использовал off-book
+`#0d1b2a`; в `HeaderShell` он приведён к токену **`brand-navy-dark`** (`#0d2240`).
+Это сознательное единственное отличие от прежней разметки сайта.
+
+---
+
+## 11. Как менять дизайн (workflow)
 
 1. Правка в этом репозитории (`tokens.css` / `tailwind-preset.js` / `DESIGN.md`).
 2. Bump `version` в package.json + git tag `vX.Y.Z` + push (см. README.md).

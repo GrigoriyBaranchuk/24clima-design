@@ -7,6 +7,7 @@
 |---|---|
 | `tokens.css` | CSS-переменные (цвета, типографика, радиусы) + 2 общих класса |
 | `tailwind-preset.js` | Общий Tailwind preset (colors, fonts, container, easing) |
+| `components/` | Общие React-компоненты (Header/Footer/WhatsApp-CTA) — v0.2.0 |
 | `DESIGN.md` | Бренд-бук: правила использования токенов и паттерны |
 
 ## Подключение в приложение
@@ -37,6 +38,77 @@ import "./globals.css";
 
 Шрифты: либо `next/font` с variable `--font-inter` / `--font-lora`,
 либо Google Fonts с семействами `Inter` / `Lora`.
+
+## Общие компоненты (v0.2.0)
+
+Пакет отдаёт готовый канон хедера/футера/WhatsApp-CTA как React-компоненты,
+чтобы сайт и магазин не расходились визуально. Компоненты framework-light
+(только React): без `next-intl`, `next/link`, `radix`/`shadcn`. Все подписи —
+через props; внутренние ссылки — через prop `LinkComponent` (по умолчанию `<a>`).
+
+### Подключение (обязательно `transpilePackages`)
+
+Сырой `.tsx` поставляется без сборки, поэтому оба приложения (Next.js App Router)
+должны транспилировать пакет:
+
+```ts
+// next.config.js / next.config.ts
+const nextConfig = {
+  transpilePackages: ["@24clima/design"],
+};
+```
+
+### Паттерн LinkComponent
+
+Роутинг остаётся в приложении. Передайте локализованный `<Link>` в примитивы:
+
+```tsx
+import { Link } from "@/i18n/routing"; // next-intl Link приложения
+
+<HeaderNavLink href="/nosotros" LinkComponent={Link}>
+  {t("about")}
+</HeaderNavLink>
+```
+
+Внешние ссылки: `external` → `<a target="_blank" rel="noopener noreferrer">`
+(тогда `LinkComponent` игнорируется). wa.me-кнопки (`WhatsAppCta`/`WhatsAppFab`)
+всегда открываются в новой вкладке.
+
+### Пример: сборка хедера
+
+```tsx
+"use client";
+import { HeaderShell, HeaderNavLink, WhatsAppCta } from "@24clima/design/components";
+import { Link } from "@/i18n/routing";
+import Image from "next/image";
+
+<HeaderShell
+  logo={<Link href="/"><Image src="/images/logo.svg" alt="24clima" width={160} height={50} /></Link>}
+  nav={
+    <>
+      <HeaderNavLink href="/" LinkComponent={Link}>{t("home")}</HeaderNavLink>
+      <HeaderNavLink href="/nosotros" LinkComponent={Link}>{t("about")}</HeaderNavLink>
+      {/* дропдаун «Soluciones» — интерактивный, остаётся в приложении */}
+    </>
+  }
+  actions={
+    <>
+      <LanguageSwitcher />
+      <WhatsAppCta href={getWhatsAppLink(msg)}>{t("whatsapp")}</WhatsAppCta>
+    </>
+  }
+  mobileMenu={<><MobileMenuTrigger /><LanguageSwitcher /></>}
+/>
+```
+
+Футер собирается аналогично из `FooterShell` + `FooterColumn`/`FooterLink` +
+`SocialLinks`. Полный перечень компонентов и их роли — в `DESIGN.md` §10.
+
+### Проверка типов
+
+```bash
+npm install && npx tsc --noEmit
+```
 
 ## Как выпустить изменение дизайна
 
