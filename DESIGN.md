@@ -37,6 +37,30 @@
 
 Tailwind: `bg-brand-navy`, `text-brand-green`, `bg-whatsapp hover:bg-whatsapp-hover` и т.д.
 
+### Контрастные варианты — зелёный как фон под белым текстом
+
+| Токен | Значение | Контраст с белым |
+|---|---|---|
+| `--color-whatsapp-contrast` | `#188842` | 4.53 |
+| `--color-whatsapp-contrast-hover` | `#147036` | 6.18 |
+| `--color-brand-green-contrast` | `#53832C` | 4.52 |
+| `--color-brand-green-contrast-hover` | `#446B24` | 6.22 |
+
+Tailwind: `bg-whatsapp-contrast hover:bg-whatsapp-contrast-hover`,
+`bg-brand-green-contrast hover:bg-brand-green-contrast-hover`.
+
+**Правило.** Белый текст на `--color-whatsapp` даёт контраст 1.98, на
+`--color-brand-green` — 2.22, при норме WCAG AA 4.5:1 для обычного текста.
+Поэтому:
+
+- зелёный **фон под белым текстом** (кнопки, плашки, бейджи) — только
+  контрастные токены;
+- зелёный **текст, иконки и декор** — базовые токены. Зелёный текст у нас лежит
+  на тёмном navy, и затемнение там наоборот снизило бы контраст.
+
+Послабление 3:1 для крупного текста на практике не применимо: надписи на зелёном
+у нас 14–18px, а крупным считается ≥24px (или ≥18.66px жирным).
+
 ### Семантические (shadcn, HSL)
 `--background`, `--foreground`, `--primary` (= green), `--secondary` (= cyan-blue),
 `--muted`, `--accent`, `--destructive`, `--border`, `--input`, `--ring` — см. `tokens.css`.

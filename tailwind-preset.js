@@ -52,6 +52,8 @@ module.exports = {
 				brand: {
 					green: "var(--color-brand-green)",
 					"green-dark": "var(--color-brand-green-dark)",
+					"green-contrast": "var(--color-brand-green-contrast)",
+					"green-contrast-hover": "var(--color-brand-green-contrast-hover)",
 					navy: "var(--color-brand-navy)",
 					"navy-dark": "var(--color-brand-navy-dark)",
 					"navy-deepest": "var(--color-brand-navy-deepest)",
@@ -59,6 +61,8 @@ module.exports = {
 				whatsapp: {
 					DEFAULT: "var(--color-whatsapp)",
 					hover: "var(--color-whatsapp-hover)",
+					contrast: "var(--color-whatsapp-contrast)",
+					"contrast-hover": "var(--color-whatsapp-contrast-hover)",
 				},
 			},
 			fontFamily: {
