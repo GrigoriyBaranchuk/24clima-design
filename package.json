@@ -1,6 +1,6 @@
 {
 	"name": "@24clima/design",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"description": "24clima design system: tokens, Tailwind preset, brand book, shared React components — shared by 24clima.com and shop.24clima.com",
 	"license": "UNLICENSED",
 	"repository": {

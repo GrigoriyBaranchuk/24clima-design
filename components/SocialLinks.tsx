@@ -24,7 +24,7 @@ const BASE =
  *
  * NOTE: Instagram gradient and Facebook (#1877F2) use hardcoded THIRD-PARTY
  * brand colours on purpose — these are the platforms' own brand identities,
- * not 24clima design tokens. Only WhatsApp uses our bg-whatsapp token.
+ * not 24clima design tokens. Only WhatsApp uses our bg-whatsapp-contrast token.
  */
 export function SocialLinks({
 	whatsapp,
@@ -47,7 +47,7 @@ export function SocialLinks({
 					rel="noopener noreferrer"
 					aria-label={labels?.whatsapp ?? "WhatsApp"}
 					onClick={onWhatsAppClick}
-					className={`${BASE} bg-whatsapp text-white hover:bg-whatsapp-hover hover:opacity-100`}
+					className={`${BASE} bg-whatsapp-contrast text-white hover:bg-whatsapp-contrast-hover hover:opacity-100`}
 				>
 					<WhatsAppIcon size={20} />
 				</a>

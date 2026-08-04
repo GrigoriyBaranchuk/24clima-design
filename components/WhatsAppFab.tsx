@@ -49,7 +49,9 @@ export function WhatsAppFab({
 			aria-label={label}
 			className={[
 				"fixed bottom-6 right-6 z-50 flex w-[60px] h-[60px] items-center justify-center",
-				"rounded-full bg-whatsapp text-white shadow-lg hover:bg-whatsapp-hover",
+				// Контрастный вариант: белая иконка на базовом зелёном даёт 1.98
+				// при норме 3:1 для нетекстовых элементов (WCAG 1.4.11).
+				"rounded-full bg-whatsapp-contrast text-white shadow-lg hover:bg-whatsapp-contrast-hover",
 				"whatsapp-pulse transition-[opacity,transform] duration-220 ease-out-emil",
 				visible
 					? "opacity-100 translate-y-0"

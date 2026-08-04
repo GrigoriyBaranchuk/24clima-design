@@ -42,7 +42,9 @@ export function WhatsAppCta({
 			rel="noopener noreferrer"
 			className={[
 				"inline-flex items-center justify-center rounded-full font-semibold text-white",
-				"bg-whatsapp hover:bg-whatsapp-hover",
+				// Контрастный вариант: белый текст на базовом --color-whatsapp
+				// даёт 1.98 при норме WCAG AA 4.5:1 (см. DESIGN.md §2).
+				"bg-whatsapp-contrast hover:bg-whatsapp-contrast-hover",
 				"transition-transform active:scale-[0.97]",
 				s.pad,
 				pulse ? "whatsapp-pulse" : "",
